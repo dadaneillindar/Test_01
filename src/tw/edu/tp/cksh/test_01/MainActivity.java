@@ -1,16 +1,22 @@
 package tw.edu.tp.cksh.test_01;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.app.Activity;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
 	private LocationManager manager;
 	private Map listener;
+	private int zoom = 16;
+	private double lat = 25, lon = 121.5;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +34,40 @@ public class MainActivity extends Activity {
 		
 		listener = new Map();
 		listener.ref= this;
-		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5*1000, 10, listener);
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 30, listener);
+		if(manager.getProvider(LocationManager.GPS_PROVIDER)!=null){
+			manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 30, listener);
+		}
+		if(manager.getProvider(LocationManager.NETWORK_PROVIDER)!=null){
+			manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5*1000, 10, listener);
+		}
 	}
+	public void onZoomin(View v) {
+		zoom++;
+		updateMapImage();
+	}
+	public void onZoomout(View v) {
+		zoom--;
+		updateMapImage();
+	}
+	
+	public void updateMapCroodinate(double new_lat, double new_lon) {
+		this.lat = new_lat;
+		this.lon = new_lon;
+	}
+	
 
+    public void updateMapImage() {
+	    	try {
+				URL url = new URL("http://maps.googleapis.com/maps/api/staticmap?" + 
+							      "zoom=" + zoom + "&size=800x800" +
+							      "&sensor=false&center=" + lat + "," + lon);
+
+				DownloadAsyncTask task = new DownloadAsyncTask();
+				task.ref = this;
+				task.execute(url);
+			} catch (MalformedURLException e) {
+			}
+	    }
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

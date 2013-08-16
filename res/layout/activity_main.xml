@@ -27,7 +27,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/plus"
-        android:textSize="26sp" />
+        android:textSize="26sp" 
+        android:onClick="onZoomin"/>
 
     <Button
         android:id="@+id/button2"
@@ -36,6 +37,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/button1"
         android:text="@string/min"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:onClick="onZoomout" />
 
 </RelativeLayout>

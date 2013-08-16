@@ -25,8 +25,11 @@ public class Map implements LocationListener {
 				label.setText(address.get(0).toString());
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			label.setText("無法聯網");
 		}
+		ref.updateMapCroodinate(loc.getLatitude(), loc.getLongitude());
+		ref.updateMapImage();
+		
 	}
 
 	@Override
