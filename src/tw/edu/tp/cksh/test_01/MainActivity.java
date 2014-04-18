@@ -4,19 +4,33 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.app.Activity;
+import android.app.Service;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
+	TextView colorRGB;
+	ImageView imgSource1;
+	Vibrator vVi;
+	
+	
 	private LocationManager manager;
 	private Map listener;
 	private int zoom = 16;
-	private double lat = 25, lon = 121.5;
+	private double lat = 25.1105474, lon = 121.526135;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +39,22 @@ public class MainActivity extends Activity {
 		manager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
 		Location coordinate = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		TextView label = (TextView)findViewById(R.id.crood_text);
+		
+		vVi = (Vibrator)this.getApplication().getSystemService(Service.VIBRATOR_SERVICE);
+		   
+		
+		colorRGB = (TextView)findViewById(R.id.textView1);
+		
+		imgSource1 = (ImageView)findViewById(R.id.map_view);
+		imgSource1.setOnTouchListener(imgSourceOnTouchListener);
+		
+		
+		
 		if (coordinate != null) {
 			label.setText(coordinate.toString());
 			//處理string
 		} else {
-			label.setText("沒有已知座標");
+			label.setText("lat = 25.1105474, lon = 121.526135");
 		}
 		
 		listener = new Map();
@@ -73,6 +98,63 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 		manager.removeUpdates(listener);
 	}
+	
+	
+	OnTouchListener imgSourceOnTouchListener
+    = new OnTouchListener(){
+
+  @Override
+  public boolean onTouch(View view, MotionEvent event) {
+   
+   float eventX = event.getX();
+   float eventY = event.getY();
+   float[] eventXY = new float[] {eventX, eventY};
+   
+   Matrix invertMatrix = new Matrix();
+   ((ImageView)view).getImageMatrix().invert(invertMatrix);
+   
+   invertMatrix.mapPoints(eventXY);
+   int x = Integer.valueOf((int)eventXY[0]);
+   int y = Integer.valueOf((int)eventXY[1]);
+   
+   
+   Drawable imgDrawable = ((ImageView)view).getDrawable();
+   Bitmap bitmap = ((BitmapDrawable)imgDrawable).getBitmap();
+   
+   
+   
+   //Limit x, y range within bitmap
+   if(x < 0){
+    x = 0;
+   }else if(x > bitmap.getWidth()-1){
+    x = bitmap.getWidth()-1;
+   }
+   
+   if(y < 0){
+    y = 0;
+   }else if(y > bitmap.getHeight()-1){
+    y = bitmap.getHeight()-1;
+   }
+
+   int touchedRGB = bitmap.getPixel(x, y);
+   
+   colorRGB.setText("touched color: " + touchedRGB);
+   colorRGB.setTextColor(touchedRGB);
+   
+   
+   if(	touchedRGB == -65794 || 
+		touchedRGB ==-1 || 
+		touchedRGB ==-3948875|| 
+		touchedRGB ==-3357767||
+		touchedRGB ==-6843505){
+	   
+	   vVi.vibrate( 50 );
+   }
+   
+   return true;
+  }};
+	
+	
  	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

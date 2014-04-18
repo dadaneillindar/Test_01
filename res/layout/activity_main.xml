@@ -4,21 +4,37 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <ImageView 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/map_view"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/des"/>
+   
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:text="@string/loc" />
 
     <TextView
         android:id="@+id/crood_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/textView1"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:ems="10"
         android:text="@string/loc" />
+
+    <ImageView
+        android:id="@+id/map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/crood_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/des"
+        android:scaleType="centerCrop" />
 
     <Button
         android:id="@+id/button1"
