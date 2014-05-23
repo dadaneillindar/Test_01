@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Test_01</string>
+    <string name="app_name">眼盲心不盲</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-	<string name="des">map</string>
+    <string name="des">map</string>
     <string name="loc">(x,y)</string>
-	<string name="plus">+</string>
-	<string name="min">-</string>
-    
+    <string name="plus">+</string>
+    <string name="min">-</string>
+    <string name="title_activity_main_activity__home">MainActivity_Home</string>
+    <string name="title_activity_main_activity__search">MainActivity_Search</string>
+    <string name="title_activity_main_activity__other">MainActivity_Other</string>
+    <string name="title_activity_main_activity__quit">MainActivity_Quit</string>
+    <string name="title_activity_main_activity__now_position">MainActivity_NowPosition</string>
+
 </resources>

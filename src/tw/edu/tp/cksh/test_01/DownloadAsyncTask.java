@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 public class DownloadAsyncTask extends AsyncTask<URL, Void, Bitmap> {
 	
-	public MainActivity ref;
+	public MainActivity_Other ref;
 
 	@Override
 	protected Bitmap doInBackground(URL... urls) {

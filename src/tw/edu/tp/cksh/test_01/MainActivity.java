@@ -1,161 +1,58 @@
 package tw.edu.tp.cksh.test_01;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import android.app.Activity;
-import android.app.Service;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationManager;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
-	
-	TextView colorRGB;
-	ImageView imgSource1;
-	Vibrator vVi;
-	
-	
-	private LocationManager manager;
-	private Map listener;
-	private int zoom = 16;
-	private double lat = 25.1105474, lon = 121.526135;
+	MediaPlayer mp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	                  WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
-		manager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
-		Location coordinate = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		TextView label = (TextView)findViewById(R.id.crood_text);
 		
-		vVi = (Vibrator)this.getApplication().getSystemService(Service.VIBRATOR_SERVICE);
-		   
+		mp = new MediaPlayer();
+		mp.stop();
+        mp = MediaPlayer.create(getBaseContext(), R.raw.welcome_new);
+        mp.start();
 		
-		colorRGB = (TextView)findViewById(R.id.textView1);
+		/*final VideoView videoView = (VideoView) this.findViewById(R.id.videoview);
+		MediaController mc = new MediaController(this);
+		videoView.setMediaController(mc);
 		
-		imgSource1 = (ImageView)findViewById(R.id.map_view);
-		imgSource1.setOnTouchListener(imgSourceOnTouchListener);
+		videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.nitro_logo));   
+		videoView.requestFocus();
+		videoView.start();*/
 		
+		ImageButton bt1 = (ImageButton)this.findViewById(R.id.button1);
 		
-		
-		if (coordinate != null) {
-			label.setText(coordinate.toString());
-			//處理string
-		} else {
-			label.setText("lat = 25.1105474, lon = 121.526135");
-		}
-		
-		listener = new Map();
-		listener.ref= this;
-		if(manager.getProvider(LocationManager.GPS_PROVIDER)!=null){
-			manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 30, listener);
-		}
-		if(manager.getProvider(LocationManager.NETWORK_PROVIDER)!=null){
-			manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5*1000, 10, listener);
-		}
-	}
-	public void onZoomin(View v) {
-		zoom++;
-		updateMapImage();
-	}
-	public void onZoomout(View v) {
-		zoom--;
-		updateMapImage();
-	}
-	
-	public void updateMapCroodinate(double new_lat, double new_lon) {
-		this.lat = new_lat;
-		this.lon = new_lon;
-	}
-	
-
-    public void updateMapImage() {
-	    	try {
-				URL url = new URL("http://maps.googleapis.com/maps/api/staticmap?" + 
-							      "zoom=" + zoom + "&size=800x800" +
-							      "&sensor=false&center=" + lat + "," + lon);
-
-				DownloadAsyncTask task = new DownloadAsyncTask();
-				task.ref = this;
-				task.execute(url);
-			} catch (MalformedURLException e) {
+		bt1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//要做的事
+				
+				Intent intent = new Intent(v.getContext(),MainActivity_Home.class);
+				startActivity(intent);
+				finish();
 			}
-	    }
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		manager.removeUpdates(listener);
+		});
+		
+		
+		
 	}
-	
-	
-	OnTouchListener imgSourceOnTouchListener
-    = new OnTouchListener(){
 
-  @Override
-  public boolean onTouch(View view, MotionEvent event) {
-   
-   float eventX = event.getX();
-   float eventY = event.getY();
-   float[] eventXY = new float[] {eventX, eventY};
-   
-   Matrix invertMatrix = new Matrix();
-   ((ImageView)view).getImageMatrix().invert(invertMatrix);
-   
-   invertMatrix.mapPoints(eventXY);
-   int x = Integer.valueOf((int)eventXY[0]);
-   int y = Integer.valueOf((int)eventXY[1]);
-   
-   
-   Drawable imgDrawable = ((ImageView)view).getDrawable();
-   Bitmap bitmap = ((BitmapDrawable)imgDrawable).getBitmap();
-   
-   
-   
-   //Limit x, y range within bitmap
-   if(x < 0){
-    x = 0;
-   }else if(x > bitmap.getWidth()-1){
-    x = bitmap.getWidth()-1;
-   }
-   
-   if(y < 0){
-    y = 0;
-   }else if(y > bitmap.getHeight()-1){
-    y = bitmap.getHeight()-1;
-   }
-
-   int touchedRGB = bitmap.getPixel(x, y);
-   
-   colorRGB.setText("touched color: " + touchedRGB);
-   colorRGB.setTextColor(touchedRGB);
-   
-   
-   if(	touchedRGB == -65794 || 
-		touchedRGB ==-1 || 
-		touchedRGB ==-3948875|| 
-		touchedRGB ==-3357767||
-		touchedRGB ==-6843505){
-	   
-	   vVi.vibrate( 50 );
-   }
-   
-   return true;
-  }};
-	
-	
- 	@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);

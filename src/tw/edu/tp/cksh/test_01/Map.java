@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class Map implements LocationListener {
 	
-	public MainActivity ref;
+	public MainActivity_Other ref;
 
 	@Override
 	public void onLocationChanged(Location loc) {

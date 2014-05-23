@@ -4,56 +4,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-   
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:text="@string/loc" />
-
-    <TextView
-        android:id="@+id/crood_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:text="@string/loc" />
-
-    <ImageView
-        android:id="@+id/map_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/crood_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/des"
-        android:scaleType="centerCrop" />
-
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/button0"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Button" />
+
+    <!-- VideoView
+        android:id="@+id/videoview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/plus"
-        android:textSize="26sp" 
-        android:onClick="onZoomin"/>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" /-->
+    
+    <ImageButton
+    android:id="@+id/button1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true"
+    android:background="#0000"
+    android:src="@drawable/logo_0" />
+    
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/button1"
-        android:text="@string/min"
-        android:textSize="32sp"
-        android:onClick="onZoomout" />
+</RelativeLayout>    
 
-</RelativeLayout>
+
